@@ -4,26 +4,19 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 // "BrowserRouter" interacts with history
 import { BrowserRouter, Route } from 'react-router-dom';
+// This resolves promise into objects in the middleware.
+import promise from 'redux-promise';
 
-import App from './components/app';
 import reducers from './reducers';
+import PostsIndex from './components/posts_index';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
-
-class Hello extends React.Component {
-  render() { return <div>Hello</div>; }
-}
-
-class GoodBye extends React.Component {
-  render() { return <div>Good Bye!</div>; }
-}
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <div>
-        <Route path="/hello" component={Hello} />
-        <Route path="/goodbye" component={GoodBye} />
+        <Route path="/" component={PostsIndex} />
       </div>
     </BrowserRouter>
   </Provider>
