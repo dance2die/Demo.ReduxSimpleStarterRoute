@@ -15,16 +15,25 @@ class PostsNew extends Component {
                     // onBlur={field.input.onBlur}
                     {...field.input}
                 />
+                {field.meta.error}
             </div>
         );
     }
 
+    onSubmit(values) {
+        console.log(values);
+    }
+
     render() {
+        // "handleSubmit" is from "reduxForm(...)(PostsNew) wiring"
+        const {handleSubmit} = this.props;
+
         return (
-            <fo || values.title.length < 3rm>
+            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
                 <Field name="title" label="Title" component={this.renderField} />
                 <Field name="categories" label="Categories" component={this.renderField} />
                 <Field name="content" label="Post Content" component={this.renderField} />
+                <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         );
     }
@@ -37,7 +46,8 @@ function validate(values) {
     const errors = {};
 
     // validate the inputs from 'values'
-    if (!values.title || ) {
+    if (!values.title) {
+        // ".title" should match "Field.name"
         errors.title = "Enter a title";
     }
 
