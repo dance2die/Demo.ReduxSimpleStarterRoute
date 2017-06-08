@@ -1,18 +1,18 @@
-import React, {Component} from 'react';
-import {Field, reduxForm} from 'redux-form';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {createPost} from '../actions';
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createPost } from '../actions';
 
 class PostsNew extends Component {
     renderField(field) {
-        const {meta: {touched, error}} = field;
+        const { meta: { touched, error } } = field;
         const className = `form-group ${touched && error ? 'has-danger' : ''}`;
 
         return (
             <div className={className}>
                 <label>{field.label}</label>
-                <input 
+                <input
                     className="form-control"
                     type="text"
                     // instead of
@@ -29,12 +29,14 @@ class PostsNew extends Component {
     }
 
     onSubmit(values) {
-        this.props.createPost(values);
+        this.props.createPost(values, () => {
+            this.props.history.push('/');
+        });
     }
 
     render() {
         // "handleSubmit" is from "reduxForm(...)(PostsNew) wiring"
-        const {handleSubmit} = this.props;
+        const { handleSubmit } = this.props;
 
         return (
             <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
@@ -78,7 +80,7 @@ export default reduxForm({
     validate: validate,
     form: 'PostsNewForm'
 })(
-    connect(null, {createPost})(PostsNew)
-);
+    connect(null, { createPost })(PostsNew)
+    );
 
 
